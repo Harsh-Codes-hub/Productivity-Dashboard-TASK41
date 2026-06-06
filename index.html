@@ -1,13 +1,117 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Productivity Dashboard</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Dashboard Container -->
+    <main class="dashboard">
+      <!-- Header -->
+      <header class="dashboard-header">
+        <h1 class="dashboard-title">Productivity Dashboard</h1>
+
+        <button class="theme-btn">Change Theme</button>
+      </header>
+
+      <!-- Weather Section -->
+      <section class="weather-banner">
+        <div class="weather-top">
+          <p class="current-date">5 June, 2026</p>
+
+          <h2 class="current-time">Saturday, 12:27:37 AM</h2>
+
+          <p class="current-location">Chittorgarh (RAJ)</p>
+        </div>
+
+        <div class="weather-bottom">
+          <div class="weather-main">
+            <h3 class="temperature">35°C</h3>
+
+            <p class="weather-condition">Light Rain</p>
+          </div>
+
+          <div class="weather-details">
+            <p>Precipitation: 35%</p>
+            <p>Humidity: 49%</p>
+            <p>Wind: 10 km/h</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Productivity Cards -->
+      <section class="productivity-grid">
+        <article class="card todo-card">
+          <h3>To Do List</h3>
+        </article>
+
+        <article class="card planner-card">
+          <h3>Daily Planner</h3>
+        </article>
+
+        <article class="card motivation-card">
+          <h3>Motivation</h3>
+        </article>
+
+        <article class="card pomodoro-card">
+          <h3>Pomodoro Timer</h3>
+        </article>
+
+        <article class="card monthly-card">
+          <h3>Monthly Planner</h3>
+        </article>
+      </section>
+
+      <!-- Panels Layer -->
+
+      <section class="panel todo-panel">
+        <div class="panel-header">
+          <h2>To Do List</h2>
+          <button class="close-btn">✕</button>
+        </div>
+
+        <div class="panel-body"></div>
+      </section>
+
+      <section class="panel planner-panel">
+        <div class="panel-header">
+          <h2>Daily Planner</h2>
+          <button class="close-btn">✕</button>
+        </div>
+
+        <div class="panel-body"></div>
+      </section>
+
+      <section class="panel motivation-panel">
+        <div class="panel-header">
+          <h2>Motivation</h2>
+          <button class="close-btn">✕</button>
+        </div>
+
+        <div class="panel-body"></div>
+      </section>
+
+      <section class="panel pomodoro-panel">
+        <div class="panel-header">
+          <h2>Pomodoro Timer</h2>
+          <button class="close-btn">✕</button>
+        </div>
+
+        <div class="panel-body"></div>
+      </section>
+
+      <section class="panel monthly-panel">
+        <div class="panel-header">
+          <h2>Monthly Planner</h2>
+          <button class="close-btn">✕</button>
+        </div>
+
+        <div class="panel-body"></div>
+      </section>
+    </main>
+
     <script src="script.js"></script>
-</body>
+  </body>
 </html>

@@ -1,10 +1,165 @@
+/* === Font === */
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap");
+
+/* === CSS Reset === */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-html, body {
-    height: 100%;
-    width: 100%;
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+img,
+picture,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  border: none;
+  background-color: none;
+  cursor: pointer;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* === Variables === */
+
+:root {
+  /* Colors */
+
+  --clr-primary: #810b38;
+  --clr-bg: #f1e2d1;
+  --clr-surface: #dcc3aa;
+  --clr-text: #541a1a;
+
+  /* Typography */
+
+  --ff-primary: "Sora", sans-serif;
+
+  --fs-300: 0.875rem;
+  --fs-400: 1rem;
+  --fs-500: 1.125rem;
+  --fs-600: 1.5rem;
+  --fs-700: 2rem;
+
+  /* Radius */
+
+  --radius-sm: 0.75rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.5rem;
+
+  /* Shadows */
+
+  --shadow-sm: 0 2px 8px rgb(0 0 0 / 8%);
+  --shadow-md: 0 6px 16px rgb(0 0 0 / 10%);
+
+  /* Spacing */
+
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+
+  /* Transition */
+
+  --transition: 0.3s ease;
+}
+
+/* === Global === */
+
+body {
+  font-family: var(--ff-primary);
+
+  background-color: var(--clr-bg);
+  color: var(--clr-text);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: var(--fs-700);
+}
+
+h2 {
+  font-size: var(--fs-600);
+}
+
+h3 {
+  font-size: var(--fs-500);
+}
+
+h4 {
+  font-size: var(--fs-400);
+}
+
+/* === Dashboard Layout === */
+
+.dashboard {
+    display: grid;
+    gap: var(--space-md);
+
+    padding: var(--space-md);
+
+    min-height: 100vh;
+}
+
+/* === Dashboard Header === */
+
+.dashboard-header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.theme-btn {
+    background-color: var(--clr-primary);
+    color: var(--clr-bg);
+
+    padding: 0.75rem 1rem;
+
+    border-radius: var(--radius-md);
+
+    transition: var(--transition);
+}
+
+.theme-btn:hover {
+    opacity: 0.9;
 }
