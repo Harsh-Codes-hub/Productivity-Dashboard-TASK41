@@ -132,34 +132,137 @@ h4 {
 /* === Dashboard Layout === */
 
 .dashboard {
-    display: grid;
-    gap: var(--space-md);
+  display: grid;
+  gap: var(--space-md);
 
-    padding: var(--space-md);
+  padding: var(--space-md);
 
-    min-height: 100vh;
+  min-height: 100vh;
 }
 
 /* === Dashboard Header === */
 
 .dashboard-header {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: center;
-    gap: var(--space-sm);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: var(--space-sm);
 }
 
 .theme-btn {
-    background-color: var(--clr-primary);
-    color: var(--clr-bg);
+  background-color: var(--clr-primary);
+  color: var(--clr-bg);
 
-    padding: 0.75rem 1rem;
+  padding: 0.75rem 1rem;
 
-    border-radius: var(--radius-md);
+  border-radius: var(--radius-md);
 
-    transition: var(--transition);
+  transition: var(--transition);
 }
 
 .theme-btn:hover {
-    opacity: 0.9;
+  opacity: 0.9;
+}
+
+/* === Shared Surface === */
+
+.weather-banner,
+.card {
+  background-color: var(--clr-surface);
+
+  border-radius: var(--radius-lg);
+
+  padding: var(--space-md);
+
+  box-shadow: var(--shadow-sm);
+}
+
+/* === Weather === */
+
+.weather-banner {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.weather-top {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.weather-bottom {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+}
+
+.temperature {
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+/* === Productivity Grid === */
+
+.productivity-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-md);
+}
+
+.card {
+  min-height: 120px;
+
+  display: grid;
+  place-items: center;
+
+  text-align: center;
+
+  transition: var(--transition);
+}
+
+.card:hover {
+  transform: translateY(-3px);
+
+  background-color: var(--clr-primary);
+  color: var(--clr-bg);
+}
+
+/* === Motivation Full Width */
+
+.motivation-card {
+  grid-column: 1 / -1;
+}
+
+/* === Panel === */
+
+.panel {
+  display: none;
+}
+
+/* === Tablet === */
+
+@media (min-width: 768px) {
+  .dashboard {
+    max-width: 900px;
+    margin-inline: auto;
+  }
+
+  .temperature {
+    font-size: 4rem;
+  }
+}
+
+/* === Desktop === */
+
+@media (min-width: 1024px) {
+  .dashboard {
+    max-width: 1200px;
+  }
+
+  .productivity-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  .motivation-card {
+    grid-column: span 1;
+  }
 }
