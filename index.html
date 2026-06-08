@@ -68,11 +68,31 @@
 
       <section class="panel todo-panel">
         <div class="panel-header">
-          <h2>To Do List</h2>
+          <h2>Your Personalized Task List</h2>
           <button class="close-btn">✕</button>
         </div>
 
-        <div class="panel-body"></div>
+        <div class="panel-body">
+          <div class="todo-content">
+            <form class="todo-form">
+              <input type="text" class="todo-input" placeholder="Enter Task" />
+              <textarea class="todo-details" placeholder="Enter Details"></textarea>
+              <label class="todo-important"
+                ><input type="checkbox" class="todo-checkbox" /><span
+                  >Mark as Important</span
+                ></label
+              >
+
+              <button type="submit" class="todo-submit-btn">Add Task</button>
+            </form>
+
+            <div class="task-container">
+              <div class="empty-state">
+                <h3>No Task Left</h3>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section class="panel planner-panel">

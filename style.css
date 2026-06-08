@@ -133,6 +133,7 @@ h4 {
 
 .dashboard {
   display: grid;
+
   gap: var(--space-md);
 
   padding: var(--space-md);
@@ -238,6 +239,141 @@ h4 {
   display: none;
 }
 
+/* === Panel Header === */
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-sm);
+
+  padding: var(--space-sm);
+
+  background-color: var(--clr-surface);
+
+  border-radius: var(--radius-lg);
+}
+
+/* === Panel Close Btn === */
+
+.close-btn {
+  padding: 7px 12px;
+
+  background-color: var(--clr-primary);
+  color: var(--clr-bg);
+
+  font-weight: 900;
+
+  border-radius: 50%;
+
+  transition: var(--transition);
+}
+
+.close-btn:hover {
+  opacity: 0.9;
+}
+
+/* === Panel Body === */
+
+.panel-body {
+  flex: 1;
+}
+
+/* === Todo Panel === */
+
+.todo-panel {
+  gap: var(--space-sm);
+  grid-template-rows: 10% 1fr;
+
+  min-height: 100vh;
+
+  padding: 1rem;
+}
+
+/* === Todo Content === */
+
+.todo-content {
+  display: grid;
+  gap: var(--space-sm);
+}
+
+/* === Task Container === */
+
+.task-container {
+  min-height: 300px;
+
+  padding: 1rem;
+
+  background: var(--clr-surface);
+
+  border-radius: var(--radius-lg);
+}
+
+/* === Todo Form === */
+
+.todo-form {
+  display: grid;
+  gap: 1rem;
+
+  padding: 1rem;
+
+  background: var(--clr-surface);
+
+  border-radius: var(--radius-lg);
+}
+
+/* === Todo Input, Todo Details, Todo Important === */
+
+.todo-input,
+.todo-details {
+  width: 100%;
+
+  padding: 1rem;
+
+  border: none;
+
+  border-radius: var(--radius-md);
+
+  background: var(--clr-bg);
+
+  color: var(--clr-text);
+}
+
+.todo-details {
+  min-height: 150px;
+
+  resize: none;
+}
+
+.todo-important {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* === Todo Submit Button === */
+
+.todo-submit-btn {
+  padding: 1rem;
+
+  border-radius: var(--radius-md);
+
+  background: var(--clr-primary);
+
+  color: var(--clr-bg);
+
+  transition: var(--transition);
+}
+
+/* === Empty State === */
+
+.empty-state {
+  display: grid;
+  place-items: center;
+
+  min-height: 250px;
+}
+
 /* === Tablet === */
 
 @media (min-width: 768px) {
@@ -249,13 +385,19 @@ h4 {
   .temperature {
     font-size: 4rem;
   }
+
+  .todo-content {
+    grid-template-columns: 350px 1fr;
+    align-items: stretch;
+  }
 }
 
 /* === Desktop === */
 
 @media (min-width: 1024px) {
   .dashboard {
-    max-width: 1200px;
+    grid-template-rows: 10% 45% 1fr;
+    max-width: 1350px;
   }
 
   .productivity-grid {
