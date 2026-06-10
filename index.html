@@ -69,14 +69,17 @@
       <section class="panel todo-panel">
         <div class="panel-header">
           <h2>Your Personalized Task List</h2>
-          <button class="close-btn">✕</button>
+          <button class="close-btn">Close</button>
         </div>
 
         <div class="panel-body">
           <div class="todo-content">
             <form class="todo-form">
               <input type="text" class="todo-input" placeholder="Enter Task" />
-              <textarea class="todo-details" placeholder="Enter Details"></textarea>
+              <textarea
+                class="todo-details"
+                placeholder="Enter Details"
+              ></textarea>
               <label class="todo-important"
                 ><input type="checkbox" class="todo-checkbox" /><span
                   >Mark as Important</span
@@ -98,15 +101,13 @@
       <section class="panel planner-panel">
         <div class="panel-header">
           <h2>Plan Your Day</h2>
-          <button class="close-btn">✕</button>
+          <button class="close-btn">Close</button>
         </div>
 
         <div class="panel-body">
           <div class="planner-container">
             <article class="time-block">
-              <p class="time-range">
-                06:00 - 07:00
-              </p>
+              <p class="time-range">06:00 - 07:00</p>
               <textarea class="planner-input" placeholder="..."></textarea>
             </article>
           </div>
@@ -115,17 +116,25 @@
 
       <section class="panel motivation-panel">
         <div class="panel-header">
-          <h2>Motivation</h2>
-          <button class="close-btn">✕</button>
+          <h2>Quote of the Day</h2>
+          <button class="close-btn">Close</button>
         </div>
 
-        <div class="panel-body"></div>
+        <div class="panel-body">
+          <div class="quote-container">
+            <span class="quote-mark quote-open">"</span>
+
+            <blockquote class="quote-text">Quote text</blockquote>
+
+            <span class="quote-mark quote-close">"</span>
+          </div>
+        </div>
       </section>
 
       <section class="panel pomodoro-panel">
         <div class="panel-header">
           <h2>Pomodoro Timer</h2>
-          <button class="close-btn">✕</button>
+          <button class="close-btn">Close</button>
         </div>
 
         <div class="panel-body"></div>
@@ -134,7 +143,7 @@
       <section class="panel monthly-panel">
         <div class="panel-header">
           <h2>Monthly Planner</h2>
-          <button class="close-btn">✕</button>
+          <button class="close-btn">Close</button>
         </div>
 
         <div class="panel-body"></div>

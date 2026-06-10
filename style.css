@@ -264,7 +264,7 @@ h4 {
 
   font-weight: 900;
 
-  border-radius: 50%;
+  border-radius: var(--radius-md);
 
   transition: var(--transition);
 }
@@ -420,6 +420,67 @@ h4 {
   color: inherit;
 
   resize: none;
+}
+
+/* === Motivation Panel === */
+
+.motivation-panel .panel-body {
+  display: grid;
+}
+
+/* === Quote Container === */
+
+.quote-container {
+  position: relative;
+
+  min-height: 60vh;
+
+  display: grid;
+  place-items: center;
+
+  padding: var(--space-lg);
+
+  background: var(--clr-surface);
+
+  border-radius: var(--radius-lg);
+}
+
+/* === Quote Text === */
+
+.quote-text {
+  max-width: 60ch;
+
+  text-align: center;
+
+  font-size: clamp(
+    1.5rem,
+    3vw,
+    3rem
+  );
+
+  font-weight: 500;
+}
+
+/* === Quote Marks === */
+
+.quote-mark {
+  position: absolute;
+
+  font-size: 8rem;
+
+  line-height: 1;
+
+  opacity: .2;
+}
+
+.quote-open {
+  top: 1rem;
+  right: 2rem;
+}
+
+.quote-close {
+  bottom: 1rem;
+  left: 2rem;
 }
 
 /* === Tablet === */
