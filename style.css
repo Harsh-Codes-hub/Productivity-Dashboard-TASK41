@@ -374,6 +374,54 @@ h4 {
   min-height: 250px;
 }
 
+/* === Planner Panel === */
+
+.planner-panel {
+  grid-template-rows: 10% 1fr;
+  
+  gap: var(--space-sm);
+  
+  min-height: 100vh;
+}
+
+/* === Planner Container === */
+
+.planner-container {
+  display: grid;
+  gap: var(--space-sm);
+
+  max-height: 75vh;
+
+  overflow-y: auto;
+}
+
+/* === Time Block === */
+
+.time-block {
+  padding: var(--space-sm);
+
+  border-radius: var(--radius-md);
+
+  background: var(--clr-surface);
+}
+
+/* === Planner Input === */
+
+.planner-input {
+  width: 100%;
+
+  min-height: 60px;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+
+  color: inherit;
+
+  resize: none;
+}
+
 /* === Tablet === */
 
 @media (min-width: 768px) {
@@ -389,6 +437,10 @@ h4 {
   .todo-content {
     grid-template-columns: 350px 1fr;
     align-items: stretch;
+  }
+
+  .planner-container {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
