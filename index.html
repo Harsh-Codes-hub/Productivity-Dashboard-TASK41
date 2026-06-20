@@ -19,183 +19,200 @@
       <!-- Weather Section -->
       <section class="weather-banner">
         <div class="weather-top">
-          <p class="current-date">5 June, 2026</p>
+          <p id="current-date">5 June, 2026</p>
 
-          <h2 class="current-time">Saturday, 12:27:37 AM</h2>
+          <h2 id="current-time">Saturday, 12:27:37 AM</h2>
 
-          <p class="current-location">Chittorgarh (RAJ)</p>
+          <p id="current-location">Chittorgarh (RAJ)</p>
         </div>
 
         <div class="weather-bottom">
           <div class="weather-main">
-            <h3 class="temperature">35°C</h3>
+            <h3 id="temperature">35°C</h3>
 
-            <p class="weather-condition">Light Rain</p>
+            <p id="condition">Light Rain</p>
           </div>
 
           <div class="weather-details">
-            <p>Precipitation: 35%</p>
-            <p>Humidity: 49%</p>
-            <p>Wind: 10 km/h</p>
+            <p id="precipitation">Precipitation: 35%</p>
+            <p id="humidity">Humidity: 49%</p>
+            <p id="wind">Wind: 10 km/h</p>
           </div>
         </div>
       </section>
 
       <!-- Productivity Cards -->
       <section class="productivity-grid">
-        <article class="card todo-card">
+        <article class="card todo-card" data-panel="todo-panel">
           <h3>To Do List</h3>
         </article>
 
-        <article class="card planner-card">
+        <article class="card planner-card" data-panel="planner-panel">
           <h3>Daily Planner</h3>
         </article>
 
-        <article class="card motivation-card">
+        <article class="card motivation-card" data-panel="motivation-panel">
           <h3>Motivation</h3>
         </article>
 
-        <article class="card pomodoro-card">
+        <article class="card pomodoro-card" data-panel="pomodoro-panel">
           <h3>Pomodoro Timer</h3>
         </article>
 
-        <article class="card monthly-card">
-          <h3>Monthly Planner</h3>
+        <article class="card major-planner-card" data-panel="major-planner-panel">
+          <h3>Project Planner</h3>
         </article>
       </section>
 
-      <!-- Panels Layer -->
+      <!-- Panel Overlay -->
 
-      <section class="panel todo-panel">
-        <div class="panel-header">
-          <h2>Your Personalized Task List</h2>
-          <button class="close-btn">Close</button>
-        </div>
+      <div class="panel-overlay"></div>
 
-        <div class="panel-body">
-          <div class="todo-content">
-            <form class="todo-form">
-              <input type="text" class="todo-input" placeholder="Enter Task" />
-              <textarea
-                class="todo-details"
-                placeholder="Enter Details"
-              ></textarea>
-              <label class="todo-important"
-                ><input type="checkbox" class="todo-checkbox" /><span
-                  >Mark as Important</span
-                ></label
-              >
+      <!-- Panel Wrapper -->
+      <section class="panel-wrapper">
+        <!-- Panels Layer -->
 
-              <button type="submit" class="todo-submit-btn">Add Task</button>
-            </form>
+        <section class="panel todo-panel" data-panel-id="todo-panel">
+          <div class="panel-header">
+            <h2>Your Personalized Task List</h2>
+            <button class="close-btn">Close</button>
+          </div>
 
-            <div class="task-container">
-              <div class="empty-state">
-                <h3>No Task Left</h3>
+          <div class="panel-body">
+            <div class="todo-content">
+              <form class="todo-form">
+                <input
+                  type="text"
+                  class="todo-input"
+                  placeholder="Enter Task"
+                />
+                <textarea
+                  class="todo-details"
+                  placeholder="Enter Details"
+                ></textarea>
+                <label class="todo-important"
+                  ><input type="checkbox" class="todo-checkbox" /><span
+                    >Mark as Important</span
+                  ></label
+                >
+
+                <button type="submit" class="todo-submit-btn">Add Task</button>
+              </form>
+
+              <div class="task-container">
+                <div class="empty-state">
+                  <h3>No Task Left</h3>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section class="panel planner-panel">
-        <div class="panel-header">
-          <h2>Plan Your Day</h2>
-          <button class="close-btn">Close</button>
-        </div>
+        <section class="panel planner-panel" data-panel-id="planner-panel">
+          <div class="panel-header">
+            <h2>Plan Your Day</h2>
+            <button class="close-btn">Close</button>
+          </div>
 
-        <div class="panel-body">
-          <div class="planner-container">
-            <article class="time-block">
+          <div class="panel-body">
+            <div class="planner-container">
+              <!-- <article class="time-block">
               <p class="time-range">06:00 - 07:00</p>
               <textarea class="planner-input" placeholder="..."></textarea>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="panel motivation-panel">
-        <div class="panel-header">
-          <h2>Quote of the Day</h2>
-          <button class="close-btn">Close</button>
-        </div>
-
-        <div class="panel-body">
-          <div class="quote-container">
-            <span class="quote-mark quote-open">"</span>
-
-            <blockquote class="quote-text">Quote text</blockquote>
-
-            <span class="quote-mark quote-close">"</span>
-          </div>
-        </div>
-      </section>
-
-      <section class="panel pomodoro-panel">
-        <div class="panel-header">
-          <h2>Lets Do Some Work</h2>
-          <button class="close-btn">Close</button>
-        </div>
-
-        <div class="panel-body">
-          <div class="pomodoro-container">
-            <div class="pomodoro-modes">
-              <button class="mode-btn active">Pomodoro</button>
-
-              <button class="mode-btn">Short Break</button>
-
-              <button class="mode-btn">Long Break</button>
+            </article> -->
             </div>
-
-            <h3 class="timer-display">25:00</h3>
-
-            <button class="start-btn">Start</button>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section class="panel monthly-panel">
-        <div class="panel-header">
-          <h2>Major Task List</h2>
-          <button class="close-btn">Close</button>
-        </div>
+        <section
+          class="panel motivation-panel"
+          data-panel-id="motivation-panel"
+        >
+          <div class="panel-header">
+            <h2>Quote of the Day</h2>
+            <button class="close-btn">Close</button>
+          </div>
 
-        <div class="panel-body">
-          <div class="major-task-content">
-            <div class="task-container">
-              <div class="empty-state">
-                <h3>No tasks left</h3>
+          <div class="panel-body">
+            <div class="quote-container">
+              <span class="quote-mark quote-open">"</span>
+
+              <blockquote class="quote-text">Quote text</blockquote>
+
+              <span class="quote-mark quote-close">"</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel pomodoro-panel" data-panel-id="pomodoro-panel">
+          <div class="panel-header">
+            <h2>Lets Do Some Work</h2>
+            <button class="close-btn">Close</button>
+          </div>
+
+          <div class="panel-body">
+            <div class="pomodoro-container">
+              <div class="pomodoro-modes">
+                <button class="mode-btn active">Pomodoro</button>
+
+                <button class="mode-btn">Short Break</button>
+
+                <button class="mode-btn">Long Break</button>
               </div>
+
+              <h3 class="timer-display">25:00</h3>
+
+              <button class="start-btn">Start</button>
             </div>
+          </div>
+        </section>
 
-            <form class="major-task-form">
-              <input
-                type="text"
-                class="major-task-title"
-                placeholder="Enter Task"
-              />
+        <section
+          class="panel major-planner-panel"
+          data-panel-id="major-planner-panel"
+        >
+          <div class="panel-header">
+            <h2>Major Task List</h2>
+            <button class="close-btn">Close</button>
+          </div>
 
-              <div class="date-row">
-                <div class="date-group">
-                  <label>Start Date</label>
-                  <input type="date" />
-                </div>
-
-                <div class="date-group">
-                  <label>End Date</label>
-                  <input type="date" />
+          <div class="panel-body">
+            <div class="major-task-content">
+              <div class="task-container">
+                <div class="empty-state">
+                  <h3>No tasks left</h3>
                 </div>
               </div>
 
-              <textarea
-                class="major-task-details"
-                placeholder="Enter Details"
-              ></textarea>
+              <form class="major-task-form">
+                <input
+                  type="text"
+                  class="major-task-title"
+                  placeholder="Enter Task"
+                />
 
-              <button type="submit">Add Task</button>
-            </form>
+                <div class="date-row">
+                  <div class="date-group">
+                    <label>Start Date</label>
+                    <input type="date" />
+                  </div>
+
+                  <div class="date-group">
+                    <label>End Date</label>
+                    <input type="date" />
+                  </div>
+                </div>
+
+                <textarea
+                  class="major-task-details"
+                  placeholder="Enter Details"
+                ></textarea>
+
+                <button type="submit">Add Task</button>
+              </form>
+            </div>
           </div>
-        </div>
+        </section>
       </section>
     </main>
 

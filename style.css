@@ -39,7 +39,7 @@ select {
 
 button {
   border: none;
-  background-color: none;
+  background: none;
   cursor: pointer;
 }
 
@@ -218,6 +218,7 @@ h4 {
   text-align: center;
 
   transition: var(--transition);
+  cursor: pointer;
 }
 
 .card:hover {
@@ -233,10 +234,47 @@ h4 {
   grid-column: 1 / -1;
 }
 
+/* === Panel Overlay === */
+
+.panel-overlay {
+  display: none;
+}
+
+.panel-overlay.active {
+  display: block;
+  
+  position: fixed;
+  inset: 0;
+  
+  z-index: 998;
+  
+  background: rgb(0 0 0 / 0.5);
+  
+  backdrop-filter: blur(4px);
+}
+
+/* Panel Wrapper */
+
+.panel-wrapper {
+  position: fixed;
+  inset: 0;
+
+  display: none;
+}
+
+.panel-wrapper.active {
+  display: block;
+}
+
 /* === Panel === */
 
 .panel {
   display: none;
+  z-index: 999;
+}
+
+.panel.active {
+  display: grid;
 }
 
 /* === Panel Header === */
@@ -755,4 +793,11 @@ h4 {
   .motivation-card {
     grid-column: span 1;
   }
+}
+
+input:focus-visible,
+textarea:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--clr-primary);
+  outline-offset: 2px;
 }
