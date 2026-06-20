@@ -88,6 +88,8 @@ a {
   /* Transition */
 
   --transition: 0.3s ease;
+
+  --transition-theme: 300ms ease;
 }
 
 /* === Global === */
@@ -197,6 +199,9 @@ h4 {
 
 .weather-banner,
 .card {
+  position: relative;
+  overflow: hidden;
+  
   border-radius: var(--radius-lg);
 
   padding: var(--space-md);
@@ -207,8 +212,25 @@ h4 {
 /* === Weather === */
 
 .weather-banner {
+  position: relative;
   display: grid;
   gap: var(--space-md);
+  overflow: hidden;
+}
+
+.weather-banner::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--clr-primary) 20%, transparent),
+    color-mix(in srgb, var(--clr-surface) 10%, transparent)
+  );
+
+  z-index: -1;
 }
 
 .weather-top {
@@ -246,9 +268,6 @@ h4 {
   transition: var(--transition);
   cursor: pointer;
 
-  position: relative;
-  overflow: hidden;
-
   color: white;
 
   background-size: cover;
@@ -265,8 +284,8 @@ h4 {
 
   background: linear-gradient(
     135deg,
-    color-mix(in srgb, var(--clr-primary) 80%, transparent),
-    color-mix(in srgb, var(--clr-surface) 20%, transparent)
+    color-mix(in srgb, var(--clr-primary) 40%, transparent),
+    color-mix(in srgb, var(--clr-surface) 10%, transparent)
   );
 
   z-index: -1;
@@ -875,4 +894,24 @@ textarea:focus-visible,
 button:focus-visible {
   outline: 2px solid var(--clr-primary);
   outline-offset: 2px;
+}
+
+html {
+  transition:
+    background-color var(--transition-theme),
+    color var(--transition-theme);
+}
+
+body,
+.card,
+.panel,
+button,
+input,
+textarea,
+.weather-banner {
+  transition:
+    background-color var(--transition-theme),
+    color var(--transition-theme),
+    border-color var(--transition-theme),
+    box-shadow var(--transition-theme);
 }
