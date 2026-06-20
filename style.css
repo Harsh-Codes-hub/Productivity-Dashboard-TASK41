@@ -378,9 +378,9 @@ h4 {
 
 .planner-panel {
   grid-template-rows: 10% 1fr;
-  
+
   gap: var(--space-sm);
-  
+
   min-height: 100vh;
 }
 
@@ -452,11 +452,7 @@ h4 {
 
   text-align: center;
 
-  font-size: clamp(
-    1.5rem,
-    3vw,
-    3rem
-  );
+  font-size: clamp(1.5rem, 3vw, 3rem);
 
   font-weight: 500;
 }
@@ -470,7 +466,7 @@ h4 {
 
   line-height: 1;
 
-  opacity: .2;
+  opacity: 0.2;
 }
 
 .quote-open {
@@ -481,6 +477,232 @@ h4 {
 .quote-close {
   bottom: 1rem;
   left: 2rem;
+}
+
+/* === Pomodoro Container === */
+
+.pomodoro-container {
+  display: grid;
+  gap: 2rem;
+
+  justify-items: center;
+
+  padding: 2rem;
+
+  background: var(--clr-surface);
+
+  border-radius: var(--radius-lg);
+}
+
+/* Pomodoro Modes */
+
+.pomodoro-modes {
+  display: grid;
+  gap: 0.75rem;
+
+  width: 100%;
+}
+
+/* === Mode Button === */
+
+.mode-btn {
+  padding: 0.75rem 1rem;
+
+  border-radius: var(--radius-md);
+
+  background: var(--clr-bg);
+
+  color: var(--clr-text);
+}
+
+.mode-btn.active {
+  background: var(--clr-primary);
+  color: var(--clr-bg);
+}
+
+/* === Start Button === */
+
+.start-btn {
+  padding: 1rem 2rem;
+
+  border-radius: var(--radius-md);
+
+  background: var(--clr-primary);
+
+  color: var(--clr-bg);
+}
+
+/* === Pomodoro Timer === */
+
+.timer-display {
+  font-size: clamp(4rem, 12vw, 8rem);
+
+  font-weight: 600;
+
+  line-height: 1;
+}
+
+/* === Major Task content === */
+
+.major-task-content {
+  display: grid;
+  gap: 1rem;
+}
+
+/* === Major Task Form === */
+
+.major-task-form {
+  display: grid;
+  gap: 1rem;
+
+  padding: 1rem;
+
+  background: var(--clr-surface);
+
+  border-radius: var(--radius-lg);
+}
+
+/* === Major Task Title === */
+
+.major-task-title {
+  width: 100%;
+
+  padding: 1rem;
+
+  border: none;
+  outline: none;
+
+  border-radius: var(--radius-md);
+
+  background: var(--clr-bg);
+
+  color: var(--clr-text);
+}
+
+/* === Date Row === */
+.date-row {
+  display: grid;
+  gap: 1rem;
+}
+
+/* === Date Group === */
+
+.date-group {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.date-group label {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.date-group input {
+  width: 100%;
+
+  padding: 0.75rem;
+
+  border: none;
+  outline: none;
+
+  border-radius: var(--radius-md);
+
+  background: var(--clr-bg);
+
+  color: var(--clr-text);
+}
+
+/* === Major Task Details === */
+
+.major-task-details {
+  min-height: 180px;
+
+  padding: 1rem;
+
+  resize: none;
+
+  border: none;
+  outline: none;
+
+  border-radius: var(--radius-md);
+
+  background: var(--clr-bg);
+
+  color: var(--clr-text);
+}
+
+/* === Major Task Form button === */
+
+.major-task-form button {
+  padding: 1rem;
+
+  border: none;
+
+  border-radius: var(--radius-md);
+
+  background: var(--clr-primary);
+
+  color: var(--clr-bg);
+
+  transition: var(--transition);
+}
+
+.major-task-form button:hover {
+  opacity: 0.9;
+}
+
+/* === Major Task List === */
+
+.major-task-list {
+  min-height: 400px;
+
+  padding: 1rem;
+
+  background: var(--clr-surface);
+
+  border-radius: var(--radius-lg);
+}
+
+/* === Empty State === */
+.empty-state {
+  display: grid;
+  place-items: center;
+
+  min-height: 300px;
+}
+
+/* === Future Task Card === */
+
+.major-task-card {
+  display: grid;
+  gap: 0.75rem;
+
+  padding: 1rem;
+
+  border-radius: var(--radius-md);
+
+  background: var(--clr-bg);
+}
+
+/* === Task Range === */
+
+.task-range {
+  font-size: 0.875rem;
+
+  color: var(--clr-primary);
+}
+
+/* === Task Description === */
+
+.task-description {
+  font-size: 0.95rem;
+}
+
+/* === Action Button === */
+
+.task-actions {
+  display: flex;
+  gap: 0.5rem;
 }
 
 /* === Tablet === */
@@ -502,6 +724,19 @@ h4 {
 
   .planner-container {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .major-task-content {
+    grid-template-columns: 350px 1fr;
+    align-items: stretch;
+  }
+
+  .date-row {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .pomodoro-modes {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 

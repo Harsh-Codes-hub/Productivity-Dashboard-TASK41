@@ -133,20 +133,69 @@
 
       <section class="panel pomodoro-panel">
         <div class="panel-header">
-          <h2>Pomodoro Timer</h2>
+          <h2>Lets Do Some Work</h2>
           <button class="close-btn">Close</button>
         </div>
 
-        <div class="panel-body"></div>
+        <div class="panel-body">
+          <div class="pomodoro-container">
+            <div class="pomodoro-modes">
+              <button class="mode-btn active">Pomodoro</button>
+
+              <button class="mode-btn">Short Break</button>
+
+              <button class="mode-btn">Long Break</button>
+            </div>
+
+            <h3 class="timer-display">25:00</h3>
+
+            <button class="start-btn">Start</button>
+          </div>
+        </div>
       </section>
 
       <section class="panel monthly-panel">
         <div class="panel-header">
-          <h2>Monthly Planner</h2>
+          <h2>Major Task List</h2>
           <button class="close-btn">Close</button>
         </div>
 
-        <div class="panel-body"></div>
+        <div class="panel-body">
+          <div class="major-task-content">
+            <div class="task-container">
+              <div class="empty-state">
+                <h3>No tasks left</h3>
+              </div>
+            </div>
+
+            <form class="major-task-form">
+              <input
+                type="text"
+                class="major-task-title"
+                placeholder="Enter Task"
+              />
+
+              <div class="date-row">
+                <div class="date-group">
+                  <label>Start Date</label>
+                  <input type="date" />
+                </div>
+
+                <div class="date-group">
+                  <label>End Date</label>
+                  <input type="date" />
+                </div>
+              </div>
+
+              <textarea
+                class="major-task-details"
+                placeholder="Enter Details"
+              ></textarea>
+
+              <button type="submit">Add Task</button>
+            </form>
+          </div>
+        </div>
       </section>
     </main>
 
