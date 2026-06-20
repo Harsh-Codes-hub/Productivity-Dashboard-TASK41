@@ -56,13 +56,6 @@ a {
 /* === Variables === */
 
 :root {
-  /* Colors */
-
-  --clr-primary: #810b38;
-  --clr-bg: #f1e2d1;
-  --clr-surface: #dcc3aa;
-  --clr-text: #541a1a;
-
   /* Typography */
 
   --ff-primary: "Sora", sans-serif;
@@ -129,6 +122,41 @@ h4 {
   font-size: var(--fs-400);
 }
 
+.theme-1 {
+  --clr-primary: #810b38;
+  --clr-bg: #f1e2d1;
+  --clr-surface: #dcc3aa;
+  --clr-text: #541a1a;
+}
+
+.theme-2 {
+  --clr-primary: #2b5748;
+  --clr-bg: #9cb080;
+  --clr-surface: #618764;
+  --clr-text: #273338;
+}
+
+.theme-3 {
+  --clr-primary: #412d15;
+  --clr-bg: #000000;
+  --clr-surface: #1f150c;
+  --clr-text: #e1dcc9;
+}
+
+.theme-4 {
+  --clr-primary: #c3110c;
+  --clr-bg: #280905;
+  --clr-surface: #740a03;
+  --clr-text: #e6501b;
+}
+
+.theme-5 {
+  --clr-primary: #ff6500;
+  --clr-bg: #0b192c;
+  --clr-surface: #1e3e62;
+  --clr-text: #ffffff;
+}
+
 /* === Dashboard Layout === */
 
 .dashboard {
@@ -169,8 +197,6 @@ h4 {
 
 .weather-banner,
 .card {
-  background-color: var(--clr-surface);
-
   border-radius: var(--radius-lg);
 
   padding: var(--space-md);
@@ -219,6 +245,31 @@ h4 {
 
   transition: var(--transition);
   cursor: pointer;
+
+  position: relative;
+  overflow: hidden;
+
+  color: white;
+
+  background-size: cover;
+  background-position: center;
+
+  isolation: isolate;
+}
+
+.card::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--clr-primary) 80%, transparent),
+    color-mix(in srgb, var(--clr-surface) 20%, transparent)
+  );
+
+  z-index: -1;
 }
 
 .card:hover {
@@ -226,6 +277,30 @@ h4 {
 
   background-color: var(--clr-primary);
   color: var(--clr-bg);
+}
+
+.card > * {
+  position: relative;
+}
+
+.todo-card {
+  background-image: url("./img/todo-list-bg.jpg");
+}
+
+.planner-card {
+  background-image: url("./img/daily-planner-bg.jpg");
+}
+
+.motivation-card {
+  background-image: url("./img/motivation-bg.jpg");
+}
+
+.pomodoro-card {
+  background-image: url("./img/pomodoro-bg.jpg");
+}
+
+.major-planner-card {
+  background-image: url("./img/project-planner-bg.jpg");
 }
 
 /* === Motivation Full Width */
@@ -242,14 +317,14 @@ h4 {
 
 .panel-overlay.active {
   display: block;
-  
+
   position: fixed;
   inset: 0;
-  
+
   z-index: 998;
-  
+
   background: rgb(0 0 0 / 0.5);
-  
+
   backdrop-filter: blur(4px);
 }
 
