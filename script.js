@@ -8,6 +8,19 @@ const ProductivityDashboard = {
   elements: {
     html: null,
     themeBtn: null,
+    weather: {
+      city: null,
+      temperature: null,
+      condition: null,
+      precipitation: null,
+      humidity: null,
+      wind: null,
+    },
+    clock: {
+      date: null,
+      time: null,
+    },
+    weatherBanner: null,
   },
 
   // =========================
@@ -33,9 +46,42 @@ const ProductivityDashboard = {
     themes: ["theme-1", "theme-2", "theme-3", "theme-4", "theme-5"],
 
     weather: {
-      apiKey: "apiKey",
+      apiKey: "",
       apiUrl: "https://api.openweathermap.org/data/2.5/weather",
     },
+
+    map: {
+      apiKey: "",
+
+      apiUrl: "https://maps.geoapify.com/v1/staticmap",
+
+      style: "klokantech-basic",
+
+      zoom: 11,
+    },
+
+    weatherThemes: [
+      "clear-day",
+      "clear-night",
+
+      "clouds-day",
+      "clouds-night",
+
+      "rain-day",
+      "rain-night",
+
+      "thunderstorm-day",
+      "thunderstorm-night",
+
+      "snow-day",
+      "snow-night",
+
+      "mist-day",
+      "mist-night",
+
+      "fog-day",
+      "fog-night",
+    ],
 
     storageKeys: {
       theme: "productivity-theme",
@@ -114,19 +160,48 @@ const ProductivityDashboard = {
         const longitude = ProductivityDashboard.state.location.longitude;
 
         const apiKey = ProductivityDashboard.config.weather.apiKey;
-        console.log(apiKey.length);
 
         const url = `${ProductivityDashboard.config.weather.apiUrl}?lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}`;
-        console.log(url);
 
         const response = await fetch(url);
-        console.log(response);
 
         const data = await response.json();
 
-        ProductivityDashboard.state.weatherData = data;
+        console.log(data);
 
-        console.log(ProductivityDashboard.state.weatherData);
+        ProductivityDashboard.state.weatherData = {
+          city: data.name,
+
+          country: data.sys.country,
+
+          temperature: Math.round(data.main.temp),
+
+          feelsLike: Math.round(data.main.feels_like),
+
+          humidity: data.main.humidity,
+
+          condition: data.weather[0].main,
+
+          description: data.weather[0].description,
+
+          icon: data.weather[0].icon,
+
+          sunrise: data.sys.sunrise,
+
+          sunset: data.sys.sunset,
+
+          wind: Math.round(data.wind.speed * 3.6),
+
+          precipitation: data.clouds?.all ?? 0,
+
+          isDay: data.dt > data.sys.sunrise && data.dt < data.sys.sunset,
+
+          latitude: ProductivityDashboard.state.location.latitude,
+
+          longitude: ProductivityDashboard.state.location.longitude,
+        };
+        this.updateBanner();
+        ProductivityDashboard.map.updateMap();
       } catch (error) {
         console.error("Weather Fetch Error:", error);
       }
@@ -142,11 +217,144 @@ const ProductivityDashboard = {
 
         console.log(ProductivityDashboard.state.location);
 
-        ProductivityDashboard.weather.fetchWeather();
+        this.fetchWeather();
       });
     },
+
     updateBanner() {
-      console.log("Updating Banner...");
+      const weather = ProductivityDashboard.state.weatherData;
+
+      ProductivityDashboard.elements.weather.city.textContent = `${weather.city} (${weather.country})`;
+
+      ProductivityDashboard.elements.weather.temperature.textContent = `${weather.temperature}°C`;
+
+      ProductivityDashboard.elements.weather.condition.textContent =
+        weather.description;
+
+      ProductivityDashboard.elements.weather.humidity.textContent = `Humidity: ${weather.humidity}%`;
+
+      ProductivityDashboard.elements.weather.precipitation.textContent = `Precipitation: ${weather.precipitation}%`;
+
+      ProductivityDashboard.elements.weather.wind.textContent = `Wind: ${weather.wind} km/h`;
+      this.applyWeatherTheme();
+    },
+
+    getWeatherTheme() {
+      const weather = ProductivityDashboard.state.weatherData;
+
+      const condition = this.normalizeCondition(weather.condition);
+
+      const timeOfDay = weather.isDay ? "day" : "night";
+
+      return `${condition}-${timeOfDay}`;
+    },
+
+    applyWeatherTheme() {
+      const banner = ProductivityDashboard.elements.weatherBanner;
+
+      const weatherTheme = this.getWeatherTheme();
+
+      banner.classList.remove(...ProductivityDashboard.config.weatherThemes);
+
+      banner.classList.add(weatherTheme);
+    },
+
+    startWeatherUpdates() {
+      this.getLocation();
+
+      setInterval(() => {
+        this.getLocation();
+      }, 3600000);
+    },
+
+    normalizeCondition(condition) {
+      const weatherMap = {
+        Clear: "clear",
+
+        Clouds: "clouds",
+
+        Rain: "rain",
+
+        Drizzle: "rain",
+
+        Thunderstorm: "thunderstorm",
+
+        Snow: "snow",
+
+        Mist: "mist",
+
+        Fog: "fog",
+
+        Haze: "fog",
+
+        Smoke: "fog",
+
+        Dust: "fog",
+
+        Sand: "fog",
+
+        Ash: "fog",
+      };
+
+      return weatherMap[condition] || "clear";
+    },
+  },
+
+  // =========================
+  // Clock Logic
+  // =========================
+
+  clock: {
+    updateClock() {
+      const now = new Date();
+
+      const date = now.toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      });
+
+      const time = now.toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: true,
+      });
+
+      const day = now.toLocaleDateString("en-US", {
+        weekday: "long",
+      });
+
+      ProductivityDashboard.elements.clock.date.textContent = date;
+
+      ProductivityDashboard.elements.clock.time.textContent = `${day}, ${time}`;
+    },
+
+    startClock() {
+      this.updateClock();
+
+      setInterval(() => {
+        this.updateClock();
+      }, 1000);
+    },
+  },
+
+  // =========================
+  // Map Logic
+  // =========================
+
+  map: {
+    updateMap() {
+      const weather = ProductivityDashboard.state.weatherData;
+
+      const config = ProductivityDashboard.config.map;
+
+      const mapUrl = `${config.apiUrl}?style=${config.style}&width=1200&height=600&center=lonlat:${weather.longitude},${weather.latitude}&zoom=${config.zoom}&apiKey=${config.apiKey}`;
+
+      ProductivityDashboard.elements.weatherBanner.style.setProperty(
+        "--banner-map",
+        `url("${mapUrl}")`,
+      );
     },
   },
 
@@ -158,6 +366,25 @@ const ProductivityDashboard = {
     this.elements.html = document.documentElement;
 
     this.elements.themeBtn = document.querySelector(".theme-btn");
+
+    this.elements.weather.city = document.querySelector("#current-location");
+
+    this.elements.weather.temperature = document.querySelector("#temperature");
+
+    this.elements.weather.condition = document.querySelector("#condition");
+
+    this.elements.weather.precipitation =
+      document.querySelector("#precipitation");
+
+    this.elements.weather.humidity = document.querySelector("#humidity");
+
+    this.elements.weather.wind = document.querySelector("#wind");
+
+    this.elements.clock.date = document.querySelector("#current-date");
+
+    this.elements.clock.time = document.querySelector("#current-time");
+
+    this.elements.weatherBanner = document.querySelector(".weather-banner");
   },
 
   // =========================
@@ -179,7 +406,9 @@ const ProductivityDashboard = {
 
     this.theme.loadTheme();
 
-    this.weather.getLocation();
+    this.weather.startWeatherUpdates();
+
+    this.clock.startClock();
 
     this.bindEvents();
   },

@@ -124,41 +124,6 @@ h4 {
   font-size: var(--fs-400);
 }
 
-.theme-1 {
-  --clr-primary: #810b38;
-  --clr-bg: #f1e2d1;
-  --clr-surface: #dcc3aa;
-  --clr-text: #541a1a;
-}
-
-.theme-2 {
-  --clr-primary: #2b5748;
-  --clr-bg: #9cb080;
-  --clr-surface: #618764;
-  --clr-text: #273338;
-}
-
-.theme-3 {
-  --clr-primary: #412d15;
-  --clr-bg: #000000;
-  --clr-surface: #1f150c;
-  --clr-text: #e1dcc9;
-}
-
-.theme-4 {
-  --clr-primary: #c3110c;
-  --clr-bg: #280905;
-  --clr-surface: #740a03;
-  --clr-text: #e6501b;
-}
-
-.theme-5 {
-  --clr-primary: #ff6500;
-  --clr-bg: #0b192c;
-  --clr-surface: #1e3e62;
-  --clr-text: #ffffff;
-}
-
 /* === Dashboard Layout === */
 
 .dashboard {
@@ -201,7 +166,7 @@ h4 {
 .card {
   position: relative;
   overflow: hidden;
-  
+
   border-radius: var(--radius-lg);
 
   padding: var(--space-md);
@@ -213,24 +178,24 @@ h4 {
 
 .weather-banner {
   position: relative;
+
   display: grid;
+
   gap: var(--space-md);
+
   overflow: hidden;
-}
 
-.weather-banner::before {
-  content: "";
+  background-image: var(--banner-map);
 
-  position: absolute;
-  inset: 0;
+  background-size: cover;
+  background-position: center;
 
-  background: linear-gradient(
-    135deg,
-    color-mix(in srgb, var(--clr-primary) 20%, transparent),
-    color-mix(in srgb, var(--clr-surface) 10%, transparent)
-  );
+  isolation: isolate;
+  color: #ffffff;
 
-  z-index: -1;
+  text-shadow: 0px 1px 1px #000000, 0px 1px 2px #000000;
+
+  filter: grayscale(0.25);
 }
 
 .weather-top {
@@ -265,10 +230,10 @@ h4 {
 
   text-align: center;
 
-  transition: var(--transition);
   cursor: pointer;
 
-  color: white;
+  color: #ffffff;
+  text-shadow: 2px 2px 1px #010101;
 
   background-size: cover;
   background-position: center;
@@ -282,20 +247,19 @@ h4 {
   position: absolute;
   inset: 0;
 
-  background: linear-gradient(
-    135deg,
-    color-mix(in srgb, var(--clr-primary) 40%, transparent),
-    color-mix(in srgb, var(--clr-surface) 10%, transparent)
-  );
+  background:
+    radial-gradient(
+      circle at top left,
+      color-mix(in srgb, var(--clr-primary) 30%, transparent),
+      transparent 60%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      color-mix(in srgb, var(--clr-surface) 30%, transparent),
+      transparent 80%
+    );
 
   z-index: -1;
-}
-
-.card:hover {
-  transform: translateY(-3px);
-
-  background-color: var(--clr-primary);
-  color: var(--clr-bg);
 }
 
 .card > * {
@@ -914,4 +878,245 @@ textarea,
     color var(--transition-theme),
     border-color var(--transition-theme),
     box-shadow var(--transition-theme);
+}
+
+.theme-1 {
+  --clr-primary: #810b38;
+  --clr-bg: #f1e2d1;
+  --clr-surface: #dcc3aa;
+  --clr-text: #541a1a;
+}
+
+.theme-2 {
+  --clr-primary: #2b5748;
+  --clr-bg: #9cb080;
+  --clr-surface: #618764;
+  --clr-text: #273338;
+}
+
+.theme-3 {
+  --clr-primary: #412d15;
+  --clr-bg: #000000;
+  --clr-surface: #1f150c;
+  --clr-text: #e1dcc9;
+}
+
+.theme-4 {
+  --clr-primary: #c3110c;
+  --clr-bg: #280905;
+  --clr-surface: #740a03;
+  --clr-text: #e6501b;
+}
+
+.theme-5 {
+  --clr-primary: #ff6500;
+  --clr-bg: #0b192c;
+  --clr-surface: #1e3e62;
+  --clr-text: #ffffff;
+}
+
+.weather-banner::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  z-index: -1;
+
+  opacity: 0.75;
+
+  backdrop-filter: blur(2px) brightness(0.8);
+}
+
+.weather-banner::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background: linear-gradient(to bottom, rgb(50 50 50 / 35%), rgb(0 0 0 / 45%));
+
+  z-index: -1;
+}
+
+/* ===== Clear ===== */
+
+.clear-day::before {
+  background:
+    radial-gradient(
+      ellipse at top left,
+      rgb(255 255 255 / 25%) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse at bottom right,
+      rgb(135 206 235 / 20%) 0%,
+      transparent 70%
+    );
+}
+
+.clear-night::before {
+  background:
+    radial-gradient(
+      ellipse at top right,
+      rgb(59 130 246 / 20%) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse at bottom left,
+      rgb(15 23 42 / 75%) 0%,
+      transparent 75%
+    );
+}
+
+/* ===== Clouds ===== */
+
+.clouds-day::before {
+  background:
+    radial-gradient(
+      ellipse at top left,
+      rgb(203 213 225 / 35%) 0%,
+      transparent 65%
+    ),
+    radial-gradient(
+      ellipse at bottom right,
+      rgb(148 163 184 / 25%) 0%,
+      transparent 70%
+    );
+}
+
+.clouds-night::before {
+  background:
+    radial-gradient(
+      ellipse at top right,
+      rgb(71 85 105 / 40%) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse at bottom left,
+      rgb(15 23 42 / 80%) 0%,
+      transparent 75%
+    );
+}
+
+/* ===== Rain ===== */
+
+.rain-day::before {
+  background:
+    radial-gradient(
+      ellipse at top left,
+      rgb(14 165 233 / 30%) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse at bottom right,
+      rgb(59 130 246 / 25%) 0%,
+      transparent 70%
+    );
+}
+
+.rain-night::before {
+  background:
+    radial-gradient(
+      ellipse at top right,
+      rgb(14 165 233 / 20%) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse at bottom left,
+      rgb(15 23 42 / 85%) 0%,
+      transparent 80%
+    );
+}
+
+/* ===== Thunderstorm ===== */
+
+.thunderstorm-day::before {
+  background:
+    radial-gradient(
+      ellipse at top center,
+      rgb(251 191 36 / 25%) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse at bottom left,
+      rgb(55 65 81 / 35%) 0%,
+      transparent 70%
+    );
+}
+
+.thunderstorm-night::before {
+  background:
+    radial-gradient(
+      ellipse at top center,
+      rgb(250 204 21 / 15%) 0%,
+      transparent 40%
+    ),
+    radial-gradient(
+      ellipse at bottom left,
+      rgb(15 23 42 / 90%) 0%,
+      transparent 80%
+    );
+}
+
+/* ===== Snow ===== */
+
+.snow-day::before {
+  background:
+    radial-gradient(
+      ellipse at top left,
+      rgb(255 255 255 / 35%) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse at bottom right,
+      rgb(226 232 240 / 25%) 0%,
+      transparent 70%
+    );
+}
+
+.snow-night::before {
+  background:
+    radial-gradient(
+      ellipse at top right,
+      rgb(226 232 240 / 20%) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse at bottom left,
+      rgb(30 41 59 / 85%) 0%,
+      transparent 80%
+    );
+}
+
+/* ===== Mist / Fog ===== */
+
+.mist-day::before,
+.fog-day::before {
+  background:
+    radial-gradient(
+      ellipse at center,
+      rgb(255 255 255 / 20%) 0%,
+      transparent 65%
+    ),
+    radial-gradient(
+      ellipse at bottom center,
+      rgb(203 213 225 / 25%) 0%,
+      transparent 75%
+    );
+}
+
+.mist-night::before,
+.fog-night::before {
+  background:
+    radial-gradient(
+      ellipse at center,
+      rgb(148 163 184 / 15%) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse at bottom center,
+      rgb(15 23 42 / 85%) 0%,
+      transparent 80%
+    );
 }
