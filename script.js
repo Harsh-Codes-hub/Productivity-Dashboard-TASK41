@@ -21,6 +21,19 @@ const ProductivityDashboard = {
       time: null,
     },
     weatherBanner: null,
+    cards: null,
+    panels: null,
+    closeBtns: null,
+    panelWrapper: null,
+    panelOverlay: null,
+    todo: {
+      input: null,
+      details: null,
+      important: null,
+      submitBtn: null,
+      taskContainer: null,
+      emptyState: null,
+    },
   },
 
   // =========================
@@ -36,6 +49,10 @@ const ProductivityDashboard = {
       latitude: null,
       longitude: null,
     },
+
+    activePanel: null,
+
+    todos: [],
   },
 
   // =========================
@@ -46,12 +63,12 @@ const ProductivityDashboard = {
     themes: ["theme-1", "theme-2", "theme-3", "theme-4", "theme-5"],
 
     weather: {
-      apiKey: "",
+      apiKey: "api_key",
       apiUrl: "https://api.openweathermap.org/data/2.5/weather",
     },
 
     map: {
-      apiKey: "",
+      apiKey: "api_key",
 
       apiUrl: "https://maps.geoapify.com/v1/staticmap",
 
@@ -85,6 +102,7 @@ const ProductivityDashboard = {
 
     storageKeys: {
       theme: "productivity-theme",
+      todos: "productivity-todos",
     },
   },
 
@@ -359,6 +377,147 @@ const ProductivityDashboard = {
   },
 
   // =========================
+  // Panel Logic
+  // =========================
+
+  panel: {
+    open(panelName) {
+      ProductivityDashboard.elements.panelWrapper.style.display = "grid";
+
+      const panel = document.querySelector(`.${panelName}-panel`);
+
+      panel.classList.add("active");
+
+      ProductivityDashboard.state.activePanel = panelName;
+
+      ProductivityDashboard.elements.panelOverlay.classList.add("active");
+      console.log(panelName);
+    },
+
+    close() {
+      ProductivityDashboard.elements.panels.forEach((panel) => {
+        panel.classList.remove("active");
+      });
+
+      ProductivityDashboard.elements.panelWrapper.style.display = "none";
+
+      ProductivityDashboard.state.activePanel = null;
+
+      ProductivityDashboard.elements.panelOverlay.classList.remove("active");
+    },
+  },
+
+  // =========================
+  // Todo Logic
+  // =========================
+
+  todo: {
+    addTask() {
+      const title = ProductivityDashboard.elements.todo.input.value.trim();
+
+      const details = ProductivityDashboard.elements.todo.details.value.trim();
+
+      const important = ProductivityDashboard.elements.todo.important.checked;
+
+      if (!title) return;
+
+      const task = {
+        id: Date.now(),
+        title,
+        details,
+        important,
+      };
+
+      ProductivityDashboard.state.todos.push(task);
+
+      ProductivityDashboard.storage.saveData(
+        ProductivityDashboard.config.storageKeys.todos,
+        ProductivityDashboard.state.todos,
+      );
+
+      ProductivityDashboard.todo.renderTasks();
+
+      ProductivityDashboard.elements.todo.input.value = "";
+
+      ProductivityDashboard.elements.todo.details.value = "";
+
+      ProductivityDashboard.elements.todo.important.checked = false;
+
+      console.log(ProductivityDashboard.state.todos);
+    },
+
+    renderTasks() {
+      const container = ProductivityDashboard.elements.todo.taskContainer;
+
+      const todos = ProductivityDashboard.state.todos;
+
+      if (todos.length === 0) {
+        container.innerHTML = `<div class="empty-state">
+        No Tasks Left
+      </div>`;
+
+        return;
+      }
+
+      container.innerHTML = "";
+
+      todos.forEach((task) => {
+        container.innerHTML += `<article class="todo-task" data-id="${task.id}">
+        <div class="todo-task-content">
+        <h4>
+          ${task.important ? "⭐ " : ""}
+          ${task.title}
+        </h4>
+        <p>${task.details || ""}</p>
+        </div>
+        <button class="task-done-btn" data-id="${task.id}"> Done</button>
+        </article> `;
+      });
+    },
+
+    loadTasks() {
+      const savedTodos = ProductivityDashboard.storage.getData(
+        ProductivityDashboard.config.storageKeys.todos,
+      );
+
+      if (!savedTodos) return;
+
+      ProductivityDashboard.state.todos = savedTodos;
+
+      this.renderTasks();
+    },
+
+    toggleTask(id) {
+      const task = ProductivityDashboard.state.todos.find(
+        (todo) => todo.id === id,
+      );
+
+      if (!task) return;
+
+      task.completed = !task.completed;
+
+      ProductivityDashboard.storage.saveData(
+        ProductivityDashboard.config.storageKeys.todos,
+        ProductivityDashboard.state.todos,
+      );
+
+      this.renderTasks();
+    },
+
+    completeTask(id) {
+      ProductivityDashboard.state.todos =
+        ProductivityDashboard.state.todos.filter((task) => task.id !== id);
+
+      ProductivityDashboard.storage.saveData(
+        ProductivityDashboard.config.storageKeys.todos,
+        ProductivityDashboard.state.todos,
+      );
+
+      this.renderTasks();
+    },
+  },
+
+  // =========================
   // Element Collection
   // =========================
 
@@ -385,6 +544,33 @@ const ProductivityDashboard = {
     this.elements.clock.time = document.querySelector("#current-time");
 
     this.elements.weatherBanner = document.querySelector(".weather-banner");
+
+    this.elements.panelWrapper = document.querySelector(".panel-wrapper");
+
+    this.elements.cards = document.querySelectorAll(".card");
+
+    this.elements.panels = document.querySelectorAll(".panel");
+
+    this.elements.closeBtns = document.querySelectorAll(".close-btn");
+
+    this.elements.panelOverlay = document.querySelector(".panel-overlay");
+
+    this.elements.todo.input = document.querySelector(".todo-input");
+
+    this.elements.todo.details = document.querySelector(".todo-details");
+
+    this.elements.todo.important = document.querySelector(
+      ".todo-important input",
+    );
+
+    this.elements.todo.submitBtn = document.querySelector(".todo-submit-btn");
+
+    this.elements.todo.taskContainer =
+      document.querySelector(".task-container");
+
+    this.elements.todo.emptyState = document.querySelector(".empty-state");
+
+    this.elements.todo.form = document.querySelector(".todo-form");
   },
 
   // =========================
@@ -395,6 +581,50 @@ const ProductivityDashboard = {
     this.elements.themeBtn.addEventListener("click", () =>
       this.theme.changeTheme(),
     );
+    this.elements.cards.forEach((card) => {
+      card.addEventListener("click", () => {
+        if (card.classList.contains("todo-card")) {
+          this.panel.open("todo");
+        }
+
+        if (card.classList.contains("planner-card")) {
+          this.panel.open("planner");
+        }
+
+        if (card.classList.contains("motivation-card")) {
+          this.panel.open("motivation");
+        }
+
+        if (card.classList.contains("pomodoro-card")) {
+          this.panel.open("pomodoro");
+        }
+
+        if (card.classList.contains("major-planner-card")) {
+          this.panel.open("major-planner");
+        }
+      });
+    });
+
+    this.elements.closeBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        this.panel.close();
+      });
+    });
+
+    this.elements.todo.submitBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      this.todo.addTask();
+    });
+
+    this.elements.todo.taskContainer.addEventListener("click", (e) => {
+      const button = e.target.closest(".task-done-btn");
+
+      if (!button) return;
+
+      const id = Number(button.dataset.id);
+
+      this.todo.completeTask(id);
+    });
   },
 
   // =========================
@@ -403,14 +633,13 @@ const ProductivityDashboard = {
 
   init() {
     this.cacheElements();
+    this.bindEvents();
 
     this.theme.loadTheme();
-
-    this.weather.startWeatherUpdates();
-
     this.clock.startClock();
+    this.todo.loadTasks();
 
-    this.bindEvents();
+    // this.weather.startWeatherUpdates();
   },
 };
 
