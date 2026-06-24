@@ -34,6 +34,10 @@ const ProductivityDashboard = {
       taskContainer: null,
       emptyState: null,
     },
+    quote: {
+      text: null,
+      author: null,
+    },
   },
 
   // =========================
@@ -42,17 +46,18 @@ const ProductivityDashboard = {
 
   state: {
     currentTheme: 0,
-
     weatherData: null,
-
     location: {
       latitude: null,
       longitude: null,
     },
-
     activePanel: null,
-
     todos: [],
+    quote: {
+      text: null,
+      author: null,
+      date: null,
+    },
   },
 
   // =========================
@@ -69,11 +74,8 @@ const ProductivityDashboard = {
 
     map: {
       apiKey: "api_key",
-
       apiUrl: "https://maps.geoapify.com/v1/staticmap",
-
       style: "klokantech-basic",
-
       zoom: 11,
     },
 
@@ -103,6 +105,7 @@ const ProductivityDashboard = {
     storageKeys: {
       theme: "productivity-theme",
       todos: "productivity-todos",
+      quote: "productivity-quote",
     },
   },
 
@@ -518,6 +521,66 @@ const ProductivityDashboard = {
   },
 
   // =========================
+  // Quote Logiclets
+  // =========================
+
+  quote: {
+    async fetchQuote() {
+      try {
+        const response = await fetch("https://dummyjson.com/quotes/random");
+
+        const data = await response.json();
+
+        ProductivityDashboard.state.quote = {
+          text: data.quote,
+          author: data.author,
+
+          date: new Date().toISOString().split("T")[0],
+        };
+
+        ProductivityDashboard.storage.saveData(
+          ProductivityDashboard.config.storageKeys.quote,
+          ProductivityDashboard.state.quote,
+        );
+
+        this.updateQuote();
+      } catch (error) {
+        console.error("Quote Fetch Error:", error);
+      }
+    },
+
+    updateQuote() {
+      const quote = ProductivityDashboard.state.quote;
+
+      ProductivityDashboard.elements.quote.text.textContent = quote.text;
+
+      ProductivityDashboard.elements.quote.author.textContent = `— ${quote.author}`;
+    },
+
+    loadQuote() {
+      const savedQuote = ProductivityDashboard.storage.getData(
+        ProductivityDashboard.config.storageKeys.quote,
+      );
+
+      const today = new Date().toISOString().split("T")[0];
+
+      if (savedQuote && savedQuote.date === today) {
+        console.log("Using saved quote");
+
+        ProductivityDashboard.state.quote = savedQuote;
+
+        this.updateQuote();
+
+        return;
+      }
+
+      console.log("Fetching new quote");
+
+      this.fetchQuote();
+    },
+  },
+
+  // =========================
   // Element Collection
   // =========================
 
@@ -571,6 +634,10 @@ const ProductivityDashboard = {
     this.elements.todo.emptyState = document.querySelector(".empty-state");
 
     this.elements.todo.form = document.querySelector(".todo-form");
+
+    this.elements.quote.text = document.querySelector(".quote-text");
+
+    this.elements.quote.author = document.querySelector(".quote-author");
   },
 
   // =========================
@@ -638,6 +705,8 @@ const ProductivityDashboard = {
     this.theme.loadTheme();
     this.clock.startClock();
     this.todo.loadTasks();
+
+    this.quote.loadQuote();
 
     // this.weather.startWeatherUpdates();
   },
