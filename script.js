@@ -38,6 +38,9 @@ const ProductivityDashboard = {
       text: null,
       author: null,
     },
+    planner: {
+      container: null,
+    },
   },
 
   // =========================
@@ -58,6 +61,7 @@ const ProductivityDashboard = {
       author: null,
       date: null,
     },
+    planner: {},
   },
 
   // =========================
@@ -106,6 +110,7 @@ const ProductivityDashboard = {
       theme: "productivity-theme",
       todos: "productivity-todos",
       quote: "productivity-quote",
+      planner: "productivity-planner",
     },
   },
 
@@ -581,6 +586,79 @@ const ProductivityDashboard = {
   },
 
   // =========================
+  // Planner Logic
+  // =========================
+
+  planner: {
+    generateTimeBlocks() {
+      const container = ProductivityDashboard.elements.planner.container;
+
+      container.innerHTML = "";
+
+      for (let hour = 6; hour < 24; hour++) {
+        const start = String(hour).padStart(2, "0") + ":00";
+
+        const end = String(hour + 1).padStart(2, "0") + ":00";
+
+        container.innerHTML += `
+      <article class="time-block">
+
+        <p class="time-range">
+          ${start} - ${end}
+        </p>
+
+        <textarea
+          class="planner-input"
+          data-hour="${start}"
+          placeholder="..."
+        ></textarea>
+
+      </article>
+    `;
+      }
+    },
+
+    savePlanner() {
+      ProductivityDashboard.storage.saveData(
+        ProductivityDashboard.config.storageKeys.planner,
+        ProductivityDashboard.state.planner,
+      );
+    },
+
+    loadPlanner() {
+      const savedPlanner = ProductivityDashboard.storage.getData(
+        ProductivityDashboard.config.storageKeys.planner,
+      );
+
+      if (!savedPlanner) return;
+
+      ProductivityDashboard.state.planner = savedPlanner;
+    },
+
+    renderPlanner() {
+      const planner = ProductivityDashboard.state.planner;
+
+      document.querySelectorAll(".planner-input").forEach((textarea) => {
+        const hour = textarea.dataset.hour;
+
+        textarea.value = planner[hour] || "";
+      });
+    },
+
+    bindPlannerEvents() {
+      document.querySelectorAll(".planner-input").forEach((textarea) => {
+        textarea.addEventListener("input", (e) => {
+          const hour = e.target.dataset.hour;
+
+          ProductivityDashboard.state.planner[hour] = e.target.value;
+
+          this.savePlanner();
+        });
+      });
+    },
+  },
+
+  // =========================
   // Element Collection
   // =========================
 
@@ -638,6 +716,10 @@ const ProductivityDashboard = {
     this.elements.quote.text = document.querySelector(".quote-text");
 
     this.elements.quote.author = document.querySelector(".quote-author");
+
+    this.elements.planner = {
+      container: document.querySelector(".planner-container"),
+    };
   },
 
   // =========================
@@ -705,6 +787,14 @@ const ProductivityDashboard = {
     this.theme.loadTheme();
     this.clock.startClock();
     this.todo.loadTasks();
+
+    this.planner.generateTimeBlocks();
+
+    this.planner.loadPlanner();
+
+    this.planner.renderPlanner();
+
+    this.planner.bindPlannerEvents();
 
     this.quote.loadQuote();
 

@@ -6,6 +6,10 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--clr-primary) transparent;
+  }
 }
 
 html,
@@ -337,7 +341,7 @@ h4 {
 
   overflow: hidden;
 
-  background: var(--clr-bg);
+  /* background: var(--clr-bg); */
 
   border-radius: var(--radius-lg);
 
@@ -366,12 +370,16 @@ h4 {
   align-items: center;
   gap: var(--space-sm);
 
-  padding: var(--space-lg);
+  padding: var(--space-sm);
 
   background-color: var(--clr-surface);
 
   border-radius: var(--radius-lg);
   flex-shrink: 0;
+}
+
+.panel-header h2 {
+  font-size: 1.2rem;
 }
 
 /* === Panel Close Btn === */
@@ -387,6 +395,8 @@ h4 {
   border-radius: var(--radius-md);
 
   transition: var(--transition);
+
+  font-size: 1rem;
 }
 
 .close-btn:hover {
@@ -421,9 +431,9 @@ h4 {
   flex-direction: column;
   gap: 0.5rem;
 
-  height: 40vh;
+  max-height: 40vh;
 
-  max-height: 400px;
+  height: 400px;
 
   overflow-y: auto;
 
@@ -432,15 +442,6 @@ h4 {
   background: var(--clr-surface);
 
   border-radius: var(--radius-lg);
-}
-
-.task-container::-webkit-scrollbar {
-  width: 8px;
-}
-
-.task-container::-webkit-scrollbar-thumb {
-  background: var(--clr-primary);
-  border-radius: 999px;
 }
 
 /* === Todo Form === */
@@ -511,7 +512,7 @@ h4 {
 /* === Planner Panel === */
 
 .planner-panel {
-  grid-template-rows: 10% 1fr;
+  grid-template-rows: auto 1fr;
 
   gap: var(--space-sm);
 }
@@ -542,7 +543,7 @@ h4 {
 .planner-input {
   width: 100%;
 
-  min-height: 60px;
+  min-height: 20px;
 
   border: none;
   outline: none;
@@ -1234,4 +1235,24 @@ textarea,
   background: var(--clr-primary);
 
   color: var(--clr-bg);
+}
+
+/* ===== Scrollbar System ===== */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(from var(--clr-primary) r g b / 0.6);
+
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--clr-primary);
 }
