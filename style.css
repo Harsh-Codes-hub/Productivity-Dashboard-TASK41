@@ -671,19 +671,37 @@ h4 {
 
 .mode-btn.active {
   background: var(--clr-primary);
-  color: var(--clr-bg);
+  color: #ffffff;
+  text-shadow:
+    0px 1px 1px #000000,
+    0px 1px 2px #000000;
+  border: 2px solid var(--clr-bg);
 }
 
-/* === Start Button === */
+/* === pomodoro Button Group === */
 
-.start-btn {
-  padding: 1rem 2rem;
+.pomodoro-btn-group {
+  display: flex;
+  flex-direction: row;
+
+  gap: var(--space-sm);
+}
+.start-btn,
+.reset-btn {
+  padding: 1rem 1.5rem;
 
   border-radius: var(--radius-md);
 
   background: var(--clr-primary);
 
-  color: var(--clr-bg);
+  color: #ffffff;
+  text-shadow:
+    0px 1px 1px #000000,
+    0px 1px 2px #000000;
+
+  font-weight: 500;
+
+  border: 2px solid var(--clr-bg);
 }
 
 /* === Pomodoro Timer === */

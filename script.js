@@ -41,6 +41,12 @@ const ProductivityDashboard = {
     planner: {
       container: null,
     },
+    pomodoro: {
+      display: null,
+      startBtn: null,
+      modeBtns: null,
+      audio: null,
+    },
   },
 
   // =========================
@@ -62,6 +68,12 @@ const ProductivityDashboard = {
       date: null,
     },
     planner: {},
+    pomodoro: {
+      mode: "pomodoro",
+      timeLeft: 1500,
+      isRunning: false,
+      interval: null,
+    },
   },
 
   // =========================
@@ -111,6 +123,14 @@ const ProductivityDashboard = {
       todos: "productivity-todos",
       quote: "productivity-quote",
       planner: "productivity-planner",
+    },
+
+    pomodoro: {
+      modes: {
+        pomodoro: 25 * 60,
+        shortBreak: 5 * 60,
+        longBreak: 15 * 60,
+      },
     },
   },
 
@@ -659,67 +679,184 @@ const ProductivityDashboard = {
   },
 
   // =========================
+  // Pomodoro Logic
+  // =========================
+
+  pomodoro: {
+    updateDisplay() {
+      const seconds = ProductivityDashboard.state.pomodoro.timeLeft;
+
+      const minutes = Math.floor(seconds / 60);
+
+      const remaining = seconds % 60;
+
+      ProductivityDashboard.elements.pomodoro.display.textContent = `${String(minutes).padStart(2, "0")}:${String(remaining).padStart(2, "0")}`;
+    },
+
+    setMode(mode) {
+      const pomodoro = ProductivityDashboard.state.pomodoro;
+
+      pomodoro.mode = mode;
+
+      pomodoro.timeLeft = ProductivityDashboard.config.pomodoro.modes[mode];
+
+      pomodoro.isRunning = false;
+
+      clearInterval(pomodoro.intervalId);
+
+      pomodoro.intervalId = null;
+
+      // Update Active Button
+      ProductivityDashboard.elements.pomodoro.modeBtns.forEach((btn) => {
+        btn.classList.remove("active");
+      });
+
+      document.querySelector(`[data-mode="${mode}"]`).classList.add("active");
+
+      this.updateDisplay();
+    },
+
+    start() {
+      const pomodoro = ProductivityDashboard.state.pomodoro;
+
+      if (pomodoro.isRunning) return;
+
+      pomodoro.isRunning = true;
+
+      this.updateButton();
+      this.toggleModeButtons(true);
+
+      pomodoro.intervalId = setInterval(() => {
+        this.tick();
+      }, 1000);
+    },
+
+    tick() {
+      const pomodoro = ProductivityDashboard.state.pomodoro;
+
+      pomodoro.timeLeft--;
+
+      this.updateDisplay();
+
+      if (pomodoro.timeLeft <= 0) {
+        this.finishSession();
+      }
+    },
+
+    pause() {
+      const pomodoro = ProductivityDashboard.state.pomodoro;
+
+      clearInterval(pomodoro.intervalId);
+
+      pomodoro.intervalId = null;
+
+      pomodoro.isRunning = false;
+
+      this.updateButton();
+      this.toggleModeButtons(false);
+    },
+
+    reset() {
+      this.pause();
+
+      const pomodoro = ProductivityDashboard.state.pomodoro;
+
+      pomodoro.timeLeft =
+        ProductivityDashboard.config.pomodoro.modes[pomodoro.mode];
+
+      this.updateDisplay();
+    },
+
+    finishSession() {
+      this.pause();
+
+      const mode = ProductivityDashboard.state.pomodoro.mode;
+
+      if (mode === "pomodoro") {
+        this.setMode("shortBreak");
+
+        this.showAlert("Pomodoro Complete!", "Time for a short break.");
+      } else if (mode === "shortBreak") {
+        this.setMode("pomodoro");
+
+        this.showAlert("Break Over!", "Ready for another focus session?");
+      } else {
+        this.setMode("pomodoro");
+
+        this.showAlert("Long Break Complete!", "Let's get back to work!");
+      }
+    },
+
+    updateButton() {
+      ProductivityDashboard.elements.pomodoro.startBtn.textContent =
+        ProductivityDashboard.state.pomodoro.isRunning ? "Pause" : "Start";
+    },
+
+    toggleModeButtons(disabled) {
+      ProductivityDashboard.elements.pomodoro.modeBtns.forEach((btn) => {
+        btn.disabled = disabled;
+      });
+    },
+
+    showAlert(title, message) {
+      const audio = ProductivityDashboard.elements.pomodoro.audio;
+      audio.loop = true;
+      audio.play();
+      Swal.fire({
+        title,
+        text: message,
+        icon: "success",
+        confirmButtonText: "Continue",
+      }).then(() => {
+        const audio = ProductivityDashboard.elements.pomodoro.audio;
+        audio.pause();
+        audio.currentTime = 0;
+      });
+    },
+  },
+
+  // =========================
   // Element Collection
   // =========================
 
   cacheElements() {
     this.elements.html = document.documentElement;
-
     this.elements.themeBtn = document.querySelector(".theme-btn");
-
     this.elements.weather.city = document.querySelector("#current-location");
-
     this.elements.weather.temperature = document.querySelector("#temperature");
-
     this.elements.weather.condition = document.querySelector("#condition");
-
     this.elements.weather.precipitation =
       document.querySelector("#precipitation");
-
     this.elements.weather.humidity = document.querySelector("#humidity");
-
     this.elements.weather.wind = document.querySelector("#wind");
-
     this.elements.clock.date = document.querySelector("#current-date");
-
     this.elements.clock.time = document.querySelector("#current-time");
-
     this.elements.weatherBanner = document.querySelector(".weather-banner");
-
     this.elements.panelWrapper = document.querySelector(".panel-wrapper");
-
     this.elements.cards = document.querySelectorAll(".card");
-
     this.elements.panels = document.querySelectorAll(".panel");
-
     this.elements.closeBtns = document.querySelectorAll(".close-btn");
-
     this.elements.panelOverlay = document.querySelector(".panel-overlay");
-
     this.elements.todo.input = document.querySelector(".todo-input");
-
     this.elements.todo.details = document.querySelector(".todo-details");
-
     this.elements.todo.important = document.querySelector(
       ".todo-important input",
     );
-
     this.elements.todo.submitBtn = document.querySelector(".todo-submit-btn");
-
     this.elements.todo.taskContainer =
       document.querySelector(".task-container");
-
     this.elements.todo.emptyState = document.querySelector(".empty-state");
-
     this.elements.todo.form = document.querySelector(".todo-form");
-
     this.elements.quote.text = document.querySelector(".quote-text");
-
     this.elements.quote.author = document.querySelector(".quote-author");
-
     this.elements.planner = {
       container: document.querySelector(".planner-container"),
     };
+    this.elements.pomodoro.display = document.querySelector(".timer-display");
+    this.elements.pomodoro.startBtn = document.querySelector(".start-btn");
+    this.elements.pomodoro.resetBtn = document.querySelector(".reset-btn");
+    this.elements.pomodoro.modeBtns = document.querySelectorAll(".mode-btn");
+    this.elements.pomodoro.audio = document.querySelector("#alarm-audio");
   },
 
   // =========================
@@ -774,6 +911,22 @@ const ProductivityDashboard = {
 
       this.todo.completeTask(id);
     });
+
+    this.elements.pomodoro.modeBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        this.pomodoro.setMode(btn.dataset.mode);
+      });
+    });
+
+    this.elements.pomodoro.startBtn.addEventListener("click", () => {
+      const running = ProductivityDashboard.state.pomodoro.isRunning;
+
+      if (running) {
+        this.pomodoro.pause();
+      } else {
+        this.pomodoro.start();
+      }
+    });
   },
 
   // =========================
@@ -786,6 +939,8 @@ const ProductivityDashboard = {
 
     this.theme.loadTheme();
     this.clock.startClock();
+    // this.weather.startWeatherUpdates();
+
     this.todo.loadTasks();
 
     this.planner.generateTimeBlocks();
@@ -798,7 +953,7 @@ const ProductivityDashboard = {
 
     this.quote.loadQuote();
 
-    // this.weather.startWeatherUpdates();
+    this.pomodoro.updateDisplay();
   },
 };
 

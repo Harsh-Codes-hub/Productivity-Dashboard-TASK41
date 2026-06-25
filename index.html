@@ -118,12 +118,7 @@
           </div>
 
           <div class="panel-body">
-            <div class="planner-container">
-              <!-- <article class="time-block">
-              <p class="time-range">06:00 - 07:00</p>
-              <textarea class="planner-input" placeholder="..."></textarea>
-            </article> -->
-            </div>
+            <div class="planner-container"></div>
           </div>
         </section>
 
@@ -157,18 +152,28 @@
           <div class="panel-body">
             <div class="pomodoro-container">
               <div class="pomodoro-modes">
-                <button class="mode-btn active">Pomodoro</button>
+                <button class="mode-btn active" data-mode="pomodoro">
+                  Pomodoro
+                </button>
 
-                <button class="mode-btn">Short Break</button>
+                <button class="mode-btn" data-mode="shortBreak">
+                  Short Break
+                </button>
 
-                <button class="mode-btn">Long Break</button>
+                <button class="mode-btn" data-mode="longBreak">
+                  Long Break
+                </button>
               </div>
 
-              <h3 class="timer-display">25:00</h3>
+              <h3 class="timer-display"></h3>
 
-              <button class="start-btn">Start</button>
+              <div class="pomodoro-btn-group">
+                <button class="start-btn">Start</button>
+                <button class="reset-btn">Reset</button>
+              </div>
             </div>
           </div>
+          <audio id="alarm-sound" src="alarm.mp3" preload="auto"></audio>
         </section>
 
         <section
@@ -218,7 +223,7 @@
         </section>
       </section>
     </main>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="script.js"></script>
   </body>
 </html>
