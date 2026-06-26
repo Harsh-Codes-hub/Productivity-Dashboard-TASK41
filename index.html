@@ -173,7 +173,7 @@
               </div>
             </div>
           </div>
-          <audio id="alarm-sound" src="alarm.mp3" preload="auto"></audio>
+          <audio id="alarm-audio" src="alarm.mp3" preload="auto"></audio>
         </section>
 
         <section
@@ -197,12 +197,12 @@
                 <div class="date-row">
                   <div class="date-group">
                     <label>Start Date</label>
-                    <input type="date" />
+                    <input type="date" class="major-task-start-date" required/>
                   </div>
 
                   <div class="date-group">
                     <label>End Date</label>
-                    <input type="date" />
+                    <input type="date" class="major-task-end-date" required/>
                   </div>
                 </div>
 
@@ -213,9 +213,9 @@
 
                 <button type="submit">Add Task</button>
               </form>
-              <div class="task-container">
+              <div class="major-task-container">
                 <div class="empty-state">
-                  <h3>No tasks left</h3>
+                  No Projects Yet
                 </div>
               </div>
             </div>

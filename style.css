@@ -339,17 +339,19 @@ h4 {
 .panel {
   display: none;
 
-  overflow: hidden;
+  overflow-y: auto;
 
-  /* background: var(--clr-bg); */
+  background: color-mix(in srgb, var(--clr-bg) 60%, transparent 90%);
+
+  backdrop-filter: blur(5px);
 
   border-radius: var(--radius-lg);
-
-  box-shadow: var(--shadow-md);
 
   gap: 1rem;
 
   padding: var(--space-sm);
+
+  box-shadow: var(--shadow-md);
 }
 
 .panel.active {
@@ -376,6 +378,8 @@ h4 {
 
   border-radius: var(--radius-lg);
   flex-shrink: 0;
+
+  height: 10vh;
 }
 
 .panel-header h2 {
@@ -714,6 +718,24 @@ h4 {
   line-height: 1;
 }
 
+/* === Major Task container === */
+
+.major-task-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  max-height: 100%;
+
+  overflow-y: auto;
+
+  padding: 1rem;
+
+  background: var(--clr-surface);
+
+  border-radius: var(--radius-lg);
+}
+
 /* === Major Task content === */
 
 .major-task-content {
@@ -834,18 +856,6 @@ h4 {
   opacity: 0.9;
 }
 
-/* === Major Task List === */
-
-.major-task-list {
-  min-height: 400px;
-
-  padding: 1rem;
-
-  background: var(--clr-surface);
-
-  border-radius: var(--radius-lg);
-}
-
 /* === Empty State === */
 .empty-state {
   display: grid;
@@ -854,38 +864,30 @@ h4 {
   min-height: 300px;
 }
 
-/* === Future Task Card === */
+/* === major project task list === */
 
-.major-task-card {
-  display: grid;
-  gap: 0.75rem;
+.major-project {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  gap: 1rem;
 
   padding: 1rem;
 
   border-radius: var(--radius-md);
 
   background: var(--clr-bg);
+
+  transition: 300ms ease;
 }
 
-/* === Task Range === */
-
-.task-range {
-  font-size: 0.875rem;
-
-  color: var(--clr-primary);
+.major-task-content {
+  flex: 1;
 }
 
-/* === Task Description === */
-
-.task-description {
-  font-size: 0.95rem;
-}
-
-/* === Action Button === */
-
-.task-actions {
-  display: flex;
-  gap: 0.5rem;
+.major-project-done-btn {
+  flex-shrink: 0;
 }
 
 .todo-panel,
@@ -1243,7 +1245,7 @@ textarea,
   text-decoration: line-through;
 }
 
-.task-done-btn {
+.done-btn {
   align-self: start;
 
   padding: 0.5rem 1rem;

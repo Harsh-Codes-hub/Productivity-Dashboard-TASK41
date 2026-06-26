@@ -47,6 +47,15 @@ const ProductivityDashboard = {
       modeBtns: null,
       audio: null,
     },
+    majorPlanner: {
+      title: null,
+      startDate: null,
+      endDate: null,
+      details: null,
+      submitBtn: null,
+      form: null,
+      container: null,
+    },
   },
 
   // =========================
@@ -70,10 +79,11 @@ const ProductivityDashboard = {
     planner: {},
     pomodoro: {
       mode: "pomodoro",
-      timeLeft: 1500,
+      timeLeft: 1,
       isRunning: false,
       interval: null,
     },
+    majorProjects: [],
   },
 
   // =========================
@@ -123,6 +133,7 @@ const ProductivityDashboard = {
       todos: "productivity-todos",
       quote: "productivity-quote",
       planner: "productivity-planner",
+      majorTasks: "productivity-major-tasks",
     },
 
     pomodoro: {
@@ -498,7 +509,7 @@ const ProductivityDashboard = {
         </h4>
         <p>${task.details || ""}</p>
         </div>
-        <button class="task-done-btn" data-id="${task.id}"> Done</button>
+        <button class="done-btn" data-id="${task.id}"> Done</button>
         </article> `;
       });
     },
@@ -800,6 +811,7 @@ const ProductivityDashboard = {
 
     showAlert(title, message) {
       const audio = ProductivityDashboard.elements.pomodoro.audio;
+      audio.volume = 1;
       audio.loop = true;
       audio.play();
       Swal.fire({
@@ -816,12 +828,125 @@ const ProductivityDashboard = {
   },
 
   // =========================
+  // Major Planner
+  // =========================
+
+  majorPlanner: {
+    addProject() {
+      const title =
+        ProductivityDashboard.elements.majorPlanner.title.value.trim();
+      const startDate =
+        ProductivityDashboard.elements.majorPlanner.startDate.value;
+      const endDate = ProductivityDashboard.elements.majorPlanner.endDate.value;
+      const details =
+        ProductivityDashboard.elements.majorPlanner.details.value.trim();
+
+      if (!title) return;
+
+      const project = {
+        id: Date.now(),
+        title,
+        startDate,
+        endDate,
+        details,
+        completed: false,
+      };
+
+      ProductivityDashboard.state.majorProjects.push(project);
+      this.saveProjects();
+      this.renderProjects();
+      ProductivityDashboard.elements.majorPlanner.form.reset();
+    },
+
+    renderProjects() {
+      const container = ProductivityDashboard.elements.majorPlanner.container;
+
+      const projects = ProductivityDashboard.state.majorProjects;
+
+      if (projects.length === 0) {
+        container.innerHTML = `
+      <div class="empty-state">
+        <h3>No Projects Yet</h3>
+      </div>
+    `;
+
+        return;
+      }
+
+      container.innerHTML = "";
+
+      projects.forEach((project) => {
+        container.innerHTML += `
+      <article
+        class="major-project ${project.completed ? "completed" : ""}"
+        data-id="${project.id}"
+      >
+
+        <div class="major-task-content">
+
+          <h3>${project.title}</h3>
+
+          <p>${project.details}</p>
+
+          <small>
+            ${project.startDate}
+            →
+            ${project.endDate}
+          </small>
+
+        </div>
+
+        <button
+          class="major-project-done-btn done-btn"
+          data-id="${project.id}"
+        >
+          ${project.completed ? "Completed" : "Done"}
+        </button>
+
+      </article>
+    `;
+      });
+    },
+
+    saveProjects() {
+      ProductivityDashboard.storage.saveData(
+        ProductivityDashboard.config.storageKeys.majorProjects,
+        ProductivityDashboard.state.majorProjects,
+      );
+    },
+
+    loadProjects() {
+      const savedProjects = ProductivityDashboard.storage.getData(
+        ProductivityDashboard.config.storageKeys.majorProjects,
+      );
+
+      if (!savedProjects) return;
+
+      ProductivityDashboard.state.majorProjects = savedProjects;
+
+      this.renderProjects();
+    },
+
+    deleteProject(id) {
+      ProductivityDashboard.state.majorProjects =
+        ProductivityDashboard.state.majorProjects.filter(
+          (project) => project.id !== id,
+        );
+
+      this.saveProjects();
+
+      this.renderProjects();
+    },
+  },
+
+  // =========================
   // Element Collection
   // =========================
 
   cacheElements() {
     this.elements.html = document.documentElement;
     this.elements.themeBtn = document.querySelector(".theme-btn");
+
     this.elements.weather.city = document.querySelector("#current-location");
     this.elements.weather.temperature = document.querySelector("#temperature");
     this.elements.weather.condition = document.querySelector("#condition");
@@ -833,10 +958,12 @@ const ProductivityDashboard = {
     this.elements.clock.time = document.querySelector("#current-time");
     this.elements.weatherBanner = document.querySelector(".weather-banner");
     this.elements.panelWrapper = document.querySelector(".panel-wrapper");
+
     this.elements.cards = document.querySelectorAll(".card");
     this.elements.panels = document.querySelectorAll(".panel");
     this.elements.closeBtns = document.querySelectorAll(".close-btn");
     this.elements.panelOverlay = document.querySelector(".panel-overlay");
+
     this.elements.todo.input = document.querySelector(".todo-input");
     this.elements.todo.details = document.querySelector(".todo-details");
     this.elements.todo.important = document.querySelector(
@@ -847,16 +974,39 @@ const ProductivityDashboard = {
       document.querySelector(".task-container");
     this.elements.todo.emptyState = document.querySelector(".empty-state");
     this.elements.todo.form = document.querySelector(".todo-form");
+
     this.elements.quote.text = document.querySelector(".quote-text");
     this.elements.quote.author = document.querySelector(".quote-author");
+
     this.elements.planner = {
       container: document.querySelector(".planner-container"),
     };
+
     this.elements.pomodoro.display = document.querySelector(".timer-display");
     this.elements.pomodoro.startBtn = document.querySelector(".start-btn");
     this.elements.pomodoro.resetBtn = document.querySelector(".reset-btn");
     this.elements.pomodoro.modeBtns = document.querySelectorAll(".mode-btn");
     this.elements.pomodoro.audio = document.querySelector("#alarm-audio");
+
+    this.elements.majorPlanner.title =
+      document.querySelector(".major-task-title");
+    this.elements.majorPlanner.startDate = document.querySelector(
+      ".major-task-start-date",
+    );
+    this.elements.majorPlanner.endDate = document.querySelector(
+      ".major-task-end-date",
+    );
+    this.elements.majorPlanner.details = document.querySelector(
+      ".major-task-details",
+    );
+    this.elements.majorPlanner.submitBtn = document.querySelector(
+      ".major-task-form button",
+    );
+    this.elements.majorPlanner.form =
+      document.querySelector(".major-task-form");
+    this.elements.majorPlanner.container = document.querySelector(
+      ".major-task-container",
+    );
   },
 
   // =========================
@@ -927,6 +1077,26 @@ const ProductivityDashboard = {
         this.pomodoro.start();
       }
     });
+
+    this.elements.pomodoro.resetBtn.addEventListener("click", () => {
+      this.pomodoro.reset();
+    });
+
+    this.elements.majorPlanner.form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      this.majorPlanner.addProject();
+    });
+
+    this.elements.majorPlanner.container.addEventListener("click", (e) => {
+      const button = e.target.closest(".major-project-done-btn");
+
+      if (!button) return;
+
+      const id = Number(button.dataset.id);
+
+      this.majorPlanner.deleteProject(id);
+    });
   },
 
   // =========================
@@ -954,6 +1124,8 @@ const ProductivityDashboard = {
     this.quote.loadQuote();
 
     this.pomodoro.updateDisplay();
+
+    this.majorPlanner.loadProjects();
   },
 };
 
