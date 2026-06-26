@@ -79,7 +79,7 @@ const ProductivityDashboard = {
     planner: {},
     pomodoro: {
       mode: "pomodoro",
-      timeLeft: 1,
+      timeLeft: 1500,
       isRunning: false,
       interval: null,
     },
